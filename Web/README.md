@@ -1,7 +1,13 @@
+![img](header.png)
 
- # BuffUp HTML5 SDK
+ # SportBuff Web SDK Documentation
 
- ### Browser compatibility (from browserslist standard > 0.5%):
+This document contains information about the Sport Buff Web SDK setup, features and configuration options
+
+### **Getting Started**
+
+Our SDK is compatible with the following Browsers:
+
  ```
     chrome 70+
     edge 18+
@@ -10,12 +16,12 @@
     safari 13
  ```
 
-### About
+**This gives us a Browser compatibility (based on the browserslist standard) > 0.5%**
 
-BuffUp SDK could be implemented into any custom Video or Media player and also provide pre-defined plugins for embedded Youtube and Twitch.tv players.
+The SportBuff SDK does support any custom Video or Media player and also provides out of the box configurations for embedded **YouTube** and **Twitch.tv** media players.
 
-### First step
-As a first you should load our SDK script from the given CDN and add into your site `<head> </head>`.
+## SDK Integration
+You should add our SDK Library from the given CDN and add into your site's header section `<head> </head>`.
 
 Example:
 ```html
@@ -28,8 +34,9 @@ Example:
     ...
 ```
 
-### Integration
-Once our BuffUp SDK loaded, you can initialize into any media player with call the following function.
+## **Using the SDK**
+
+Once the SDK is loaded, you can initialize it on any media player by using the following method:
 
 ```javascript
     BuffVideo({
@@ -46,21 +53,36 @@ Once our BuffUp SDK loaded, you can initialize into any media player with call t
 Standard Javascript `document.querySelector()` where the SDK should render the BuffUP overlay e.g. `#videoPlayer` , `.videoPlayer` 
 
 ##### token: 
-Bearer token provided by the back-end, for more information please read the back-end implementation.
+The JWT token that you have retrieved from our Backend using our Rest API *(See the API Documentation section for details)*
 
 ##### pluginType:
-You should only provide this value in case of Youtube or Twitch player integration.
+You should only provide this value if you are using our SDK over a Youtube or Twitch player
 
 ##### startTime:
-UTC time used to sync `mediaCurrentTime` with Buffs timings. 
+An optional time, in **UTC** which is used to synchronize the `mediaCurrentTime` with our Buff's (**only needed if the implementation of the player is allowing the user to timeShift** )
 
 ##### streamTitle / streamId:
-These values used to match your media with our back-end. Either can be used or both, recommended `streamId` as it always unique.
+A required parameter with either the Event Title or the Event Id (**preferred**) or both.
 
+These values are used to match the current stream with our backend provided streams in order to keep separate leaderboards per event.
 
-### Examples for integration:
+## Using the SDK
 
-#### HTML5 example:
+In case of a continuous live stream where events are changing, you will need to update the event name and/or id using the following method
+
+```javascript
+    setBuffVideo({
+        startTime:                 // !Optional: Date (2020-08-28T14:48:13Z)
+        streamTitle:               // !Required: string
+        streamId:                  // !Required: number
+    });
+```
+
+#### 
+
+## Examples of different integration scenarios
+
+#### HTML5 example
 
 ```html
 ...
@@ -89,7 +111,9 @@ These values used to match your media with our back-end. Either can be used or b
 
 ```
 
-#### Youtube example:
+------
+
+#### Youtube example
 
 ```html
 ...
@@ -101,11 +125,11 @@ These values used to match your media with our back-end. Either can be used or b
 ...
 
 <script>
-    // Be sure that BuffSDK loaded before initialization
+    // Be sure that BuffSDK is loaded before initialization
     window.onload = function(){
       BuffVideo({
           overlayQuerySelector: ".playerElement",
-          token: "IkpXVCJ9.eyJzgRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxeJf36POk6yJV",
+          token: "JWT USER TOKEN",
           pluginType: "youtube",
           streamId: 11338,
       });
@@ -115,28 +139,18 @@ These values used to match your media with our back-end. Either can be used or b
 
 ```
 
-### Load new stream listener:
+------
 
-BuffUp SDK allow to switch between streams without reloading the page.
-
-```javascript
-    setBuffVideo({
-        startTime:                 // !Optional: Date (2020-08-28T14:48:13Z)
-        streamTitle:               // !Required: string
-        streamId:                  // !Required: number
-    });
-```
-
-#### HTML5 example:
+### Load new stream listener
 
 ```html
 <script>
     ...
-    // Be sure that BuffSDK loaded before initialization
+    // Be sure that BuffSDK is loaded before initialization
     window.onload = function(){
       BuffVideo({
           overlayQuerySelector: ".playerElement",
-          token: "IkpXVCJ9.eyJzgRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxeJf36POk6yJV",
+          token: "JWT USER TOKEN",
           pluginType: "youtube",
           streamId: 11338,
       });
@@ -150,3 +164,84 @@ BuffUp SDK allow to switch between streams without reloading the page.
 
 
 ```
+
+
+
+------
+
+
+## API Documentation
+
+We offer two REST API endpoints that should be used by the CBS (Client's Backend System) in order to authenticate a user and obtain a user JWT Token.
+
+The authentication flow is as follows:
+
+1. You obtain an **SDK Client Token**, using your SDK Key/Secret pair that we provided you with and making a **POST** request on the following endpoint:
+
+   `/v1/auth/client`
+
+```json
+Request Body
+{
+  "key": "string",
+  "secret": "string"
+}
+```
+
+You should receive a JSON payload in the following format with your **SDK Client Token**:
+
+```json
+{
+  "id": int,
+  "token": "string"
+}
+```
+
+
+
+2. You obtain a **User Client Token**, by using your SDK Client Token to authenticate and making a **POST** request on the following endpoint:
+
+`/v1/auth/uuid`
+
+```json
+Request Body
+{
+  "uuid": "string"
+}
+```
+
+You should receive a JSON payload in the following format with the **User JWT Token**:
+
+```json
+{
+  "id": int,
+  "token": "string"
+}
+```
+
+
+
+**The current base URL** is `https://sdk-api-staging.buffup.net/api`
+
+------
+
+#### Example curl requests
+
+```json
+curl --location --request POST 'https://sdk-api-staging.buffup.net/api/v1/auth/client' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+	"key": "SDK KEY",
+	"secret": "SDK SECRET"
+}'
+```
+
+```json
+curl --location --request POST 'https://sdk-api-staging.buffup.net/api/v1/auth/uuid' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: Bearer SDK_CLIENT_TOKEN' \
+--data-raw '{
+	"uuid": "123-456-789-0000"
+}'
+```
+

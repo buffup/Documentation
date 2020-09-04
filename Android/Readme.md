@@ -4,7 +4,7 @@
 
 # SportBuff Android SDK Documentation
 
-This document contains information about the Sport Buff Android SDK features and configuration options
+This document contains information about the Sport Buff Android SDK setup, features and configuration options
 
 **Getting Started**
 
@@ -59,7 +59,6 @@ implementation 'com.buffup:buffsdk:1.0.10'
 
    The SDK secret you've received from us
    
-
 2. Sign in the user with the following method:
 
    ```kotlin
@@ -101,7 +100,6 @@ The SDK secret you've received from us
 
    The app context 
    
-
 2. Authenticate the user using our Rest API, in your own backend and then sign in the user with the following method:
 
    ```kotlin
@@ -221,8 +219,6 @@ BuffView.setVideoProgress(position: Long)
 ------
 
 
-
-
 ## API Documentation
 
 We offer two REST API endpoints that should be used by the CBS (Client's Backend System) in order to authenticate a user and obtain a user JWT Token.
@@ -276,7 +272,9 @@ You should receive a JSON payload in the following format with the **User JWT To
 
 **The current base URL** is `https://sdk-api-staging.buffup.net/api`
 
-Example curl requests for the above endpoints are here:
+------
+
+#### Example curl requests
 
 ```json
 curl --location --request POST 'https://sdk-api-staging.buffup.net/api/v1/auth/client' \
@@ -286,8 +284,6 @@ curl --location --request POST 'https://sdk-api-staging.buffup.net/api/v1/auth/c
 	"secret": "SDK SECRET"
 }'
 ```
-
-
 
 ```json
 curl --location --request POST 'https://sdk-api-staging.buffup.net/api/v1/auth/uuid' \
