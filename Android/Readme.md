@@ -255,7 +255,7 @@ You should receive a JSON payload in the following format with your **SDK Client
 ```json
 Request Body
 {
-  "uuid": "string"
+  "uuid": "128 bit UUID string"
 }
 ```
 
