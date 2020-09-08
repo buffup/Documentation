@@ -214,6 +214,15 @@ Finally you need to be sending to our SDK updates on the video progress at regul
 BuffView.setVideoProgress(position: Long)
 ```
 
+## Enable profile picture profile update
+In order to pass a selected user picture to the Buff SDK add the following: 
+
+```kotlin
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        buffView.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+```
 
 
 ------
