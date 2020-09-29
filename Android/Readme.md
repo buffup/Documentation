@@ -264,9 +264,17 @@ You should receive a JSON payload in the following format with your **SDK Client
 ```json
 Request Body
 {
-  "uuid": "128 bit UUID string"
+  "uuid": "128 bit UUID String",
+  "email": "string",
+  "first_name": "string",
+  "last_name": "string",
+  "username": "string"
 }
 ```
+
+The **uuid** is the only required parameter. **email, first_name, last_name and username** are *optional parameters*.
+
+
 
 You should receive a JSON payload in the following format with the **User JWT Token**:
 
