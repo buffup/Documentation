@@ -49,6 +49,7 @@ Once the SDK is loaded, you can initialize it on any media player by using the f
         customization:{            // !Optional: every fields are optional
                 webController:                      // boolean
                 autoHideMenu:                       // boolean
+                hideLeaderBoardPictures:            // boolean
                 menuPosition:                       // string 'left' | 'center' | 'right'
                 buffPosition:                       // string 'left' | 'center' | 'right'
                 buffAnimationIn:                    // string 'bounceInUp'
