@@ -46,6 +46,23 @@ Once the SDK is loaded, you can initialize it on any media player by using the f
         startTime:                 // !Optional: Date (2020-08-28T14:48:13Z)
         streamTitle:               // !Required: string
         streamId:                  // !Required: number
+        customization:{            // !Optional: every fields are optional
+                webController:                      // boolean
+                autoHideMenu:                       // boolean
+                menuPosition:                       // string 'left' | 'center' | 'right'
+                buffPosition:                       // string 'left' | 'center' | 'right'
+                buffAnimationIn:                    // string 'bounceInUp'
+                buffAnimationOut:                   // string 'bounceOutDown'
+                menuXoffset:                        // number
+                menuYoffset:                        // number
+                buffXoffset:                        // number
+                buffYoffset:                        // number
+                labels:{
+                    label_ranking:                  // string
+                    label_now:                      // string
+                    label_global:                   // string 
+                }
+            }
     });
 ```
 
@@ -65,6 +82,9 @@ An optional time, in **UTC** which is used to synchronize the `mediaCurrentTime`
 A required parameter with either the Event Title or the Event Id (**preferred**) or both.
 
 These values are used to match the current stream with our backend provided streams in order to keep separate leaderboards per event.
+
+##### customization:
+Customizable features may vary based on SDK version or client needs.
 
 ## Using the SDK
 
