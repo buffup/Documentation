@@ -57,6 +57,7 @@ Once the SDK is loaded, you can initialize it on any media player by using the f
                 menuYoffset:                        // number
                 buffXoffset:                        // number
                 buffYoffset:                        // number
+      					hideLeaderBoardPictures:            // boolean
                 labels:{
                     label_ranking:                  // string
                     label_now:                      // string
