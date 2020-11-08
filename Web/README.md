@@ -46,6 +46,8 @@ Once the SDK is loaded, you can initialize it on any media player by using the f
         startTime:                 // !Optional: Date (2020-08-28T14:48:13Z)
         streamTitle:               // !Required: string
         streamId:                  // !Required: number
+        debug:                     // !Optional: boolean
+        force:                     // !Optional: boolean
         customization:{            // !Optional: every fields are optional
                 webController:                      // boolean
                 autoHideMenu:                       // boolean
@@ -84,12 +86,18 @@ A required parameter with either the Event Title or the Event Id (**preferred**)
 
 These values are used to match the current stream with our backend provided streams in order to keep separate leaderboards per event.
 
+#### debug
+Switch on verbose Error or Info messages printed into the browser console.
+
+#### force
+Allow to re-initialize the SDK (clean states), recommend to use on SPA(Single Page Application) where media players could be switched without actual page reload.
+
 ##### customization:
 Customizable features may vary based on SDK version or client needs.
 
 ## Using the SDK
 
-In case of a continuous live stream where events are changing, you will need to update the event name and/or id using the following method
+In case of a continuous live stream where events are changing, you will need to update the event name and/or id using the following method. Only useable when the actual media player is static and the content change. 
 
 ```javascript
     setBuffVideo({
