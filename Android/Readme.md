@@ -13,29 +13,23 @@ The SDK is available for Android with support to SDK version 17 and newer
 ## SDK Integration
 #### Gradle
 
-Add the Buff Up repository to the repositories section in your project’s build.gradle file:
+Add it in your root build.gradle at the end of repositories:
 
 ```kotlin
-repositories {
-...
-  maven {
-    name = "{$RepositoryName}"
-    url = uri("{$RepositoryUrl}")
-    credentials {
-                username = "${USERNAME}"
-                password = "${TOKEN}"
-                }
-         }
- }
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
 ```
+
 
 Add this line to your build.gradle file:
 
 ```kotlin
 implementation 'com.buffup:buffsdk:1.0.10'
 ```
-
-
 
 ## **Using the SDK**
 
@@ -189,7 +183,9 @@ Allows you to define custom margins for the User Points location
 
 In order for us to be able to serve the appropriate Buff's for the given stream, we need to receive the Stream information.
 
-This is done by using the following method, when the stream is initialized on your video player:
+There are two way to achieve this, call any of the following method, when the stream is initialized on your video player 
+
+***Option-1***
 
 ```kotlin
 BuffView.setStreamTitle(streamTitle: String, timestamp: Long)
@@ -203,9 +199,37 @@ The name of the Stream you are going to be showing to the user
 
 A value representing the timestamp of the beginning of the stream in UTC timezone
 
+***Option-2***
+
+```kotlin
+BuffView.initWithProviderId(providerId: String, startTimeStamp: Long?)
+```
+
+**providerId**
+
+The id of the Stream Provider that you plan to show to users
+
+**startTimeStamp**
+
+A value representing the timestamp of the beginning of the stream in UTC timezone
+
+***Option-3***
+
+```kotlin
+BuffView.initWithStreamId(streamId: String, startTimeStamp: Long?)
+```
+
+**streamId**
+
+The id of the stream you are going to be showing to the user
+
+**startTimeStamp**
+
+A value representing the timestamp of the beginning of the stream in UTC timezone
+
+
 
 **In case of a continuous stream where the events are changing, you need to reuse the above method each time the stream event changes**
-
 
 
 Finally you need to be sending to our SDK updates on the video progress at regular intervals, using the following method:
