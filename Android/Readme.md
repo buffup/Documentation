@@ -311,14 +311,14 @@ You should receive a JSON payload in the following format with the **User JWT To
 
 
 
-**The current base URL** is `https://sdk-api-staging.buffup.net/api`
+**The current base URL** is `https://sdk.prod.buffup.net/api/v1`
 
 ------
 
 #### Example curl requests
 
 ```json
-curl --location --request POST 'https://sdk-api-staging.buffup.net/api/v1/auth/client' \
+curl --location --request POST 'https://sdk.prod.buffup.net/api/v1/auth/client' \
 --header 'Content-Type: application/json' \
 --data-raw '{
 	"key": "SDK KEY",
@@ -327,7 +327,7 @@ curl --location --request POST 'https://sdk-api-staging.buffup.net/api/v1/auth/c
 ```
 
 ```json
-curl --location --request POST 'https://sdk-api-staging.buffup.net/api/v1/auth/uuid' \
+curl --location --request POST 'https://sdk.prod.buffup.net/api/v1/auth/uuid' \
 --header 'Content-Type: application/json' \
 --header 'Authorization: Bearer SDK_CLIENT_TOKEN' \
 --data-raw '{
