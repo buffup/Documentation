@@ -48,6 +48,7 @@ Once the SDK is loaded, you can initialize it on any media player by using the f
         streamId:                  // !Required: number
         debug:                     // !Optional: boolean
         force:                     // !Optional: boolean
+	ignoreRemoteConfig:	   // !Optional: boolean
         customization:{            // !Optional: every fields are optional
                 webController:                      // boolean
                 autoHideMenu:                       // boolean
@@ -94,6 +95,9 @@ Allow to re-initialize the SDK (clean states), recommend to use on SPA(Single Pa
 
 ##### customization:
 Customizable features may vary based on SDK version or client needs.
+
+##### ignoreRemoteConfig:
+Controls if the SDK initialization properties are read from the remote configuration, or the init parameters here are used instead.
 
 ## Using the SDK
 
