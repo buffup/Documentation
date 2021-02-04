@@ -1,6 +1,6 @@
 ![img](header.png)
 
- # SportBuff Web SDK Documentation
+# SportBuff Web SDK Documentation
 
 This document contains information about the Sport Buff Web SDK setup, features and configuration options
 
@@ -8,30 +8,33 @@ This document contains information about the Sport Buff Web SDK setup, features 
 
 Our SDK is compatible with the following Browsers:
 
- ```
-    chrome 70+
-    edge 18+
-    firefox 68+
-    opera 68+
-    safari 13
- ```
+```
+   chrome 70+
+   edge 18+
+   firefox 68+
+   opera 68+
+   safari 13.1+
+```
 
 **This gives us a Browser compatibility (based on the browserslist standard) > 0.5%**
 
 The SportBuff SDK does support any custom Video or Media player and also provides out of the box configurations for embedded **YouTube** and **Twitch.tv** media players.
 
 ## SDK Integration
+
 You should add our SDK Library from the given CDN and add into your site's header section `<head> </head>`.
 
 Example:
+
 ```html
 <html lang="en">
-    <head>
-        ...
-        <script src="https://buffup-public.s3.eu-west-2.amazonaws.com/webSDK/1.x/buffSDK.min.js"></script>
-        ...
-    </head>
+  <head>
     ...
+    <script src="https://buffup-public.s3.eu-west-2.amazonaws.com/webSDK/1.x/buffSDK.min.js"></script>
+    ...
+  </head>
+  ...
+</html>
 ```
 
 ## **Using the SDK**
@@ -64,44 +67,53 @@ Once the SDK is loaded, you can initialize it on any media player by using the f
                 labels:{
                     label_ranking:                  // string
                     label_now:                      // string
-                    label_global:                   // string 
+                    label_global:                   // string
                 }
             }
     });
 ```
 
-##### overlayQuerySelector: 
-Standard Javascript `document.querySelector()` where the SDK should render the BuffUP overlay e.g. `#videoPlayer` , `.videoPlayer` 
+##### overlayQuerySelector:
 
-##### token: 
-The JWT token that you have retrieved from our Backend using our Rest API *(See the API Documentation section for details)*
+Standard Javascript `document.querySelector()` where the SDK should render the BuffUP overlay e.g. `#videoPlayer` , `.videoPlayer`
+
+##### token:
+
+The JWT token that you have retrieved from our Backend using our Rest API _(See the API Documentation section for details)_
 
 ##### pluginType:
+
 You should only provide this value if you are using our SDK over a Youtube or Twitch player
 
 ##### startTime:
+
 An optional time, in **UTC** which is used to synchronize the `mediaCurrentTime` with our Buff's (**only needed if the implementation of the player is allowing the user to timeShift** )
 
 ##### streamTitle / streamId:
+
 A required parameter with either the Event Title or the Event Id (**preferred**) or both.
 
 These values are used to match the current stream with our backend provided streams in order to keep separate leaderboards per event.
 
 #### debug
+
 Switch on verbose Error or Info messages printed into the browser console.
 
 #### force
+
 Allow to re-initialize the SDK (clean states), recommend to use on SPA(Single Page Application) where media players could be switched without actual page reload.
 
 ##### customization:
+
 Customizable features may vary based on SDK version or client needs.
 
 ##### ignoreRemoteConfig:
+
 Controls if the SDK initialization properties are read from the remote configuration, or the init parameters here are used instead.
 
 ## Using the SDK
 
-In case of a continuous live stream where events are changing, you will need to update the event name and/or id using the following method. Only useable when the actual media player is static and the content change. 
+In case of a continuous live stream where events are changing, you will need to update the event name and/or id using the following method. Only useable when the actual media player is static and the content change.
 
 ```javascript
     setBuffVideo({
@@ -111,7 +123,7 @@ In case of a continuous live stream where events are changing, you will need to 
     });
 ```
 
-#### 
+####
 
 ## Examples of different integration scenarios
 
@@ -119,89 +131,84 @@ In case of a continuous live stream where events are changing, you will need to 
 
 ```html
 ...
-<div class=playerWrapper>
-        <video id="video" playsinline="" class="__video-element" src="blob:./videoStream">
-        </video>
-    <div class="buff-overlay">
-
-    </div> 
+<div class="playerWrapper">
+  <video
+    id="video"
+    playsinline=""
+    class="__video-element"
+    src="blob:./videoStream"
+  ></video>
+  <div class="buff-overlay"></div>
 </div>
 ...
 
 <script>
-    // Be sure that BuffSDK loaded before initialization
-    window.onload = function(){
-      BuffVideo({
-          overlayQuerySelector: ".buff-overlay",
-          token: "IkpXVCJ9.eyJzgRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxeJf36POk6yJV",
-          startTime: "2020-08-28T14:48:13Z",
-          streamTitle: "World cup final 2022",
-          streamId: 1337,
-      });
-    };
+  // Be sure that BuffSDK loaded before initialization
+  window.onload = function () {
+    BuffVideo({
+      overlayQuerySelector: ".buff-overlay",
+      token: "IkpXVCJ9.eyJzgRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxeJf36POk6yJV",
+      startTime: "2020-08-28T14:48:13Z",
+      streamTitle: "World cup final 2022",
+      streamId: 1337,
+    });
+  };
 </script>
 ...
-
 ```
 
-------
+---
 
 #### Youtube example
 
 ```html
 ...
-<div class=playerElement>
-    <iframe
+<div class="playerElement">
+  <iframe
     src="https://www.youtube.com/embed/bTqsdafFSmY?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
-    ></iframe>
+  ></iframe>
 </div>
 ...
 
 <script>
-    // Be sure that BuffSDK is loaded before initialization
-    window.onload = function(){
-      BuffVideo({
-          overlayQuerySelector: ".playerElement",
-          token: "JWT USER TOKEN",
-          pluginType: "youtube",
-          streamId: 11338,
-      });
-    };
+  // Be sure that BuffSDK is loaded before initialization
+  window.onload = function () {
+    BuffVideo({
+      overlayQuerySelector: ".playerElement",
+      token: "JWT USER TOKEN",
+      pluginType: "youtube",
+      streamId: 11338,
+    });
+  };
 </script>
 ...
-
 ```
 
-------
+---
 
 ### Load new stream listener
 
 ```html
 <script>
-    ...
-    // Be sure that BuffSDK is loaded before initialization
-    window.onload = function(){
-      BuffVideo({
-          overlayQuerySelector: ".playerElement",
-          token: "JWT USER TOKEN",
-          pluginType: "youtube",
-          streamId: 11338,
-      });
-    };
+  ...
+  // Be sure that BuffSDK is loaded before initialization
+  window.onload = function(){
+    BuffVideo({
+        overlayQuerySelector: ".playerElement",
+        token: "JWT USER TOKEN",
+        pluginType: "youtube",
+        streamId: 11338,
+    });
+  };
 
-    setBuffVideo({
-        streamId: 11339,
-    })
-    ...
+  setBuffVideo({
+      streamId: 11339,
+  })
+  ...
 </script>
-
-
 ```
 
-
-
-------
-
+---
 
 ## API Documentation
 
@@ -230,8 +237,6 @@ You should receive a JSON payload in the following format with your **SDK Client
 }
 ```
 
-
-
 2. You obtain a **User Client Token**, by using your SDK Client Token to authenticate and making a **POST** request on the following endpoint:
 
 `/v1/auth/uuid`
@@ -247,9 +252,7 @@ Request Body
 }
 ```
 
-The **uuid** is the only required parameter. **email, first_name, last_name and username** are *optional parameters*.
-
-
+The **uuid** is the only required parameter. **email, first_name, last_name and username** are _optional parameters_.
 
 You should receive a JSON payload in the following format with the **User JWT Token**:
 
@@ -260,11 +263,9 @@ You should receive a JSON payload in the following format with the **User JWT To
 }
 ```
 
-
-
 **The current base URL** is `https://sdk.prod.buffup.net/api/v1`
 
-------
+---
 
 #### Example curl requests
 
@@ -285,4 +286,3 @@ curl --location --request POST 'https://sdk.prod.buffup.net/api/v1/auth/uuid' \
 	"uuid": "123-456-789-0000"
 }'
 ```
-
