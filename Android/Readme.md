@@ -113,9 +113,7 @@ The SDK secret you've received from us
 
 Our SDK provides a custom View named **BuffView**, which is responsible for displaying all UI elements on top of your video view.
 
-Add this View on top of your video view then configure the placement of the elements in the BuffView, by using the Styleable properties of the view:
-
-For example:
+Add this View on top of your video view, for example:
 ```
     <com.buffup.sdk.ui.BuffView
         android:id="@+id/buffView"
@@ -134,6 +132,8 @@ For example:
 
     </com.buffup.sdk.ui.BuffView>
 ```
+
+View can then configure the placement of the elements in the BuffView, by using the Styleable properties of the view:
 
 ##### **buffsVisibility**
 
