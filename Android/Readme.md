@@ -28,7 +28,7 @@ allprojects {
 Add this line to your build.gradle file:
 
 ```kotlin
-implementation 'com.buffup:buffsdk:1.0.10'
+implementation 'com.buffup:buffsdk:1.0.25'
 ```
 
 ## **Using the SDK**
@@ -114,6 +114,26 @@ The SDK secret you've received from us
 Our SDK provides a custom View named **BuffView**, which is responsible for displaying all UI elements on top of your video view.
 
 Add this View on top of your video view then configure the placement of the elements in the BuffView, by using the Styleable properties of the view:
+
+For example:
+```
+    <com.buffup.sdk.ui.BuffView
+        android:id="@+id/buffView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:buffsDisplayType="cards"
+        app:buffsVisibility="left"
+        app:stateVisibility="true">
+
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/playerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:resize_mode="zoom"
+            app:use_controller="true" />
+
+    </com.buffup.sdk.ui.BuffView>
+```
 
 ##### **buffsVisibility**
 
