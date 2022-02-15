@@ -6,96 +6,112 @@ This document contains information about the Sport Buff iOS SDK setup, features 
 
 **Getting Started**
 
-The SDK is available for iOS with support to version 12 and newer as a zipped binary framework. 
+The SDK is available for iOS with support to version 12 and newer as a Cocoa Pod library and as a xcframework. 
 
+<br>
 ## SDK Integration
-To integrate the SDK, you will need to follow the following steps:
- 	1. Download the BuffSDK
- 	2. Extract it then drag & drop BuffSDK.framework to your project's "Embedded Binaries" section under the "General" tab, and make sure that the "Copy items if needed" checkbox is checked
- 	3. Create a new "Run Script Phase" in your project’s target "Build Phases" and add the following snippet:
 
-```bash
-“${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/BuffSDK.framework/strip-frameworks.sh"
-```
+### 1. CocoaPods
 
-In Xcode 11.x you might get the following error:
+[CocoaPods](https://cocoapods.org/) is a dependency manager for Cocoa projects. For usage and installation instructions, visit their website. To integrate SportBuff into your Xcode project using CocoaPods, specify it in your Podfile:
 
-```swift
-dyld: Library not loaded: @rpath/BuffSDK.framework/BuffSDK
-Reason: image not found
-```
+````
+pod 'SportBuff', '0.0.34.0'
+````
+<br>
 
-If that's the case, do the following steps:
+### 2. XCFramework
 
-- Under Build Phases, click on + icon to add a new phase, and select New Copy Files Phase
-- Drag the newly created Copy Files phase above Compile Sources phase
-- In the new Copy Files phase, select Frameworks from Destination dropdown
-- Leave the subpath blank. Let by default Copy only when installing
-- Under the table, click '+' and then select BuffSDK.framework
-- Make sure Code Sign on Copy is checked (ticked)
-- Do a clean build.
+To integrate the SDK as a xcframework, you will need to follow the following steps:
+ 	1. Download the SportBuff.xcframework
+ 	2. Drag & drop SportBuff.xcframework to your project's target "Frameworks, Libraries, and Embedded Content" section under the "General" tab, and make sure that the "Embed & Sign" is selected
+
+![img](framework.png)
+<br><br>
 
 ## **Using the SDK**
 
-1. Import the BuffSDK framework header in your app delegate
+1. Import the SportBuff framework header in your app delegate
 
    ```swift
-   import BuffSDK
+   import SportBuff
    ```
 
 2. Authenticate your SDK and user:
    The SDK requires a JWT Token, in order to authenticate. In order to obtain that token, you have two options
-
+   
+<br>
 #### *Option A*
-
-Authenticate directly in the application using the SDK Key/Secret pair you did receive from us:
-
-```swift
-BuffSDK.instance.start(key: <#SDK KEY#>, secret: <#SDK SECRET#>, userId: <#Unique User Id#>, email: <#User Email#>, photoUrl: <#User Profile Picture URL#>)
-```
-
-##### key: 
-
-The SDK key you've received from us
-
-##### secret:
-
-The SDK secret you've received from us
-
-##### userId: 
-
-**Required** A unique identifier for the current user, which will always be the same for this user
-
-##### email: 
-
-***Optional*** The user's email address
-
-##### photoUrl:
-
-***Optional*** A url to the users profile picture
-
-------
-
-#### *Option B*
 
 Authenticate the user using our Rest API, in your own backend and then sign in the user with the following method:
 
 ```swift
-BuffSDK.instance.configure(with: <#TOKEN#>
+SportBuff.initialize(userToken: "<UserToken>")
 ```
 
-##### token: 
+##### userToken: 
 
 **Required** The user JWT Token you've received from our Backend API service
 
 *The procedure is explained in the API Documentation section*
 
+<br>
+#### *Option B*
 
+
+Authenticate directly in the application using the SDK Key/Secret pair you did receive from us:
+
+```swift
+SportBuff.initialize(sdkKey: "<SDK Key>",
+                     sdkSecret: "<SDK Secret>",
+                     uuid: "<UUID>",
+                     username: "<Username>",
+                     firstName: "<First Name>",
+                     lastName: "<Last Name>",
+                     email: "<Email>",
+                     locale: "<Locale>") { userToken in
+}
+```
+
+##### sdkKey: 
+
+**Required** The SDK key you've received from us
+
+##### sdkSecret:
+
+**Required** The SDK secret you've received from us
+
+##### uuid: 
+
+**Required** A unique identifier for the current user, which will always be the same for this user
+
+##### username: 
+
+***Optional*** The username
+
+##### firstName: 
+
+***Optional*** The user's first name
+
+##### lastName: 
+
+***Optional*** The user's last name
+
+##### email: 
+
+***Optional*** The user's email address
+
+##### locale: 
+
+***Optional*** The user's locale
+
+
+Returns the user token as String
 
 
 ## Configuring the SDK
 
-Our SDK provides a custom View named **BuffView**, which is responsible for displaying all UI elements on top of your video view.
+Our SDK provides a custom View named ** BuffView**, which is responsible for displaying all UI elements on top of your video view.
 
 Add this View on top of your video view then configure the placement of the elements in the BuffView, by using the Styleable properties of the view:
 
@@ -195,7 +211,8 @@ In order for us to be able to serve the appropriate Buff's for the given stream,
 This is done by using the following method, when the stream is initialized on your video player:
 
 ```swift
-BuffSDK.instance.startBuffsFor(streamTitle: <#STREAM TITLE#>, streamId: <#STREAM ID#>, timestamp: <#TimeStamp>, ownerView: self.view)
+let buffView = BuffView()
+buffView.startStream(streamId: "<Stream ID>", streamSourceId:"<Stream Source ID>", streamTitle: "<Stream Title>")
 ```
 
 *In case of a live stream where events are changing on the same stream, you need to use the above function again with the updated stream title and timestamp for the event, each time a new event is starting*
@@ -204,34 +221,21 @@ BuffSDK.instance.startBuffsFor(streamTitle: <#STREAM TITLE#>, streamId: <#STREAM
 
 *However it is recommended using the Stream Identifier approach to avoid any problems with identical stream Titles.*
 
-**streamTitle**
+** streamTitle**
 
 The name of the Stream you are going to be showing to the user
 
-**streamId**
+** streamId**
 
 The id of the Stream you are going to be showing to the user as a unique identifier
 
-**timestamp**
+** streamSourceId **
 
-A value representing the timestamp of the beginning of the stream in UTC timezone
+The source id of the Stream you are going to be showing to the user
 
 
 **In case of a continuous stream where the events are changing, you need to reuse the above method each time the stream event changes**
 
-**ownerView**
-
-The view that hosts the BuffSDK
-
-------
-
-Finally you need to be sending to our SDK updates on the video progress at regular intervals, using the following method:
-
-```swift
-BuffSDK.instance.videoPlaybackTime(seconds)
-```
-
-------
 
 
 ## API Documentation
