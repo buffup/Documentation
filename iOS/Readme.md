@@ -41,7 +41,7 @@ To integrate the SDK as a xcframework, you will need to follow the following ste
    The SDK requires a JWT Token, in order to authenticate. In order to obtain that token, you have two options
    
 <br>
-#### *Option A*
+#### *Option A* (to be used in Production)
 
 Authenticate the user using our Rest API, in your own backend and then sign in the user with the following method:
 
@@ -56,7 +56,7 @@ SportBuff.initialize(userToken: "<UserToken>")
 *The procedure is explained in the API Documentation section*
 
 <br>
-#### *Option B*
+#### *Option B* (to be used only in Development/Testing)
 
 
 Authenticate directly in the application using the SDK Key/Secret pair you did receive from us:
